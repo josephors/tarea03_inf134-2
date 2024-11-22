@@ -22,3 +22,24 @@ Registro::Registro(){
 Registro::~Registro() {
     delete[] pedidos;
 }
+
+int Registro::hash(int n_mesa, bool tipo_pedido){
+
+};
+
+int Registro::p(int i){
+
+};
+
+void Registro::agregar_pedido(Pedido* pedido){
+    //generamos el índice para el pedido
+    /*
+    string nombre_pedido = pedido
+
+    int pos_inicial, i;
+    int pos_actual = hash();
+    */
+
+    //agregamos a tabla de hashing
+
+}
