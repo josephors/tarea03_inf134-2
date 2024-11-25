@@ -16,6 +16,8 @@ class Pedido {
         bool servir; //true para servir, false para llevar.
         size_t cant_platos;
         int n_mesa; // sirve para identificar la mesa, lo que facilita el hashing *AGREGADO
+
+        int clave;
     public :
         Pedido ();
         ~ Pedido ();
@@ -25,6 +27,7 @@ class Pedido {
         int getMesa();         // Devuelve el número de mesa.
         void setTipo(bool tipo);     // Asigna el tipo de pedido (servir/llevar).
         bool getTipo();        // Devuelve el tipo de pedido.
+        Plato* getPlatos();
 };
 
 class Registro {
@@ -35,14 +38,19 @@ class Registro {
         int ganancias;
         int hash(int n_mesa, bool tipo_pedido);
         int p(int i);
+
+        Pedido* pedido_actual; //pedido en curso
     public :
         Registro (int size);
         ~ Registro ();
-        //void RegistroAux(int n_mesas);
-        void agregar_pedido (Pedido* pedido); //agrega el pedido a la tabla de hashing.
-        Pedido * get_pedido (int id, bool tipo); //Retorna el pedido según id y tipo (servir true, llevar false).
-        Pedido * eliminar_pedido (int id, bool tipo); //Elimina el pedido según id y tipo.
 
+        void agregar_pedido (Pedido* pedido); //agrega el pedido a la tabla de hashing.
+        Pedido* get_pedido (int id, bool tipo); //Retorna el pedido según id y tipo (servir true, llevar false).
+        Pedido* eliminar_pedido (int id, bool tipo); //Elimina el pedido según id y tipo.
+        Pedido* get_pedido_actual(); // Método para obtener el pedido actual
+        void set_pedido_actual(Pedido* pedido); // Método para establecer el pedido actual
+
+        void Platos_Precios(int id, bool tipo_pedido);
 };
 
 #endif // HASH_H
