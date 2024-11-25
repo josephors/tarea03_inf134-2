@@ -106,9 +106,9 @@ void procesarLinea(string linea, Registro &registro_pedidos, Plato* menu, int la
             cout << "mesa " << registro_pedidos.get_pedido_actual()->getMesa() << " Registrado" << endl;
         } else {
             cout << "llevar " << id_llevar << " Registrado" << endl;
+            id_llevar++;
         }
 
-        id_llevar++;
         registro_pedidos.agregar_pedido(registro_pedidos.get_pedido_actual()); // aqui agregamos los detalles
         registro_pedidos.set_pedido_actual(nullptr); //reseteamos el pedido actual
 
