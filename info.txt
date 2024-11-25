@@ -1,0 +1,34 @@
+void Registro::Platos_Precios(int id, bool tipo_pedido) {
+    // Obtener el pedido usando el método existente
+    Pedido* pedido = get_pedido(id, tipo_pedido);
+
+    // Verificar si el pedido existe
+    if (pedido == nullptr) {
+        cerr << "Error: Pedido no encontrado." << endl;
+        return;
+    }
+
+    // Mostrar los nombres de los platos
+    cout << "Platos del pedido:" << endl;
+    for (int i = 0; i < 25; ++i) { // Usar el tamaño fijo del arreglo
+        cout << "- " << pedido->getPlatos()[i].nombre << endl;
+    }
+
+    // Mostrar el precio total del pedido
+    int total = pedido->precio_total(); // Calcular el precio total una vez
+    cout << "Total del pedido: " << total << " pesos" << endl;
+}
+else if (comando == "info") {
+        string tipo_pedido;
+        int id;
+        iss >> tipo_pedido >> id;
+
+        // Determinar si el pedido es para servir o llevar
+        bool es_servir = (tipo_pedido == "mesa");
+
+        // Llamar al método Platos_Precios para mostrar la información del pedido
+        registro_pedidos.Platos_Precios(id, es_servir);
+Plato*Pedido::getPlatos(){
+        return platos;
+    }
+Plato* getPlatos(); // Devuelve el arreglo platos
