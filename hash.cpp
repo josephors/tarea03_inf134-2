@@ -7,7 +7,7 @@ using namespace std;
 ////-------------------------------Registro------------------------
 
 
-Registro::Registro(int size) : size(size), ganancias(0), pedido_actual(nullptr) {
+Registro::Registro(int size) : size(size), ganancias(0), pedido_actual(nullptr), factor_de_carga(0.0), cant_pedidos(0) {
     pedidos = new Pedido[size](); //pasar el size de int a size_t?? creo que no es necesario
 }
 
@@ -65,12 +65,22 @@ void Registro::agregar_pedido(Pedido* pedido) {
         }
     }
     
-    pedidos[(pos_inicial + p(i)) % size] = *pedido; // Insertar pedido / por qué esto no funciona de por sí???
+    pedidos[(pos_inicial + p(i)) % size] = *pedido; //insertar pedido
+    cant_pedidos+=1;
+    factor_de_carga=cant_pedidos/size;
 }
+
+float Registro::retornarFactorDeCarga(){
+    return factor_de_carga;
+}
+
 Pedido* Registro::eliminar_pedido(int id, bool tipo) {
     // Calcular la posición inicial usando hash
     int pos_inicial = hash(id, tipo);
     size_t i = 0;
+
+    cout << "--------" << endl;
+    cout << pos_inicial << endl;
 
     // Búsqueda en la tabla hash
     while (pedidos[(pos_inicial + p(i)) % size].getMesa() != 0) { // Si la posición está ocupada
@@ -129,7 +139,9 @@ void Registro::Platos_Precios(int id, bool tipo_pedido) {
     // Mostrar los nombres de los platos
     cout << "Platos del pedido:" << endl;
     for (int i = 0; i < 25; ++i) { // Usar el tamaño fijo del arreglo
-        cout << "- " << pedido->getPlatos()[i].nombre << endl;
+        if(pedido->getPlatos()[i].nombre.length()>0){
+            cout << "- " << pedido->getPlatos()[i].nombre << endl;
+        }
     }
 
     // Mostrar el precio total del pedido
@@ -161,7 +173,7 @@ void Pedido::agregar_plato(Plato* plato) {
     if (cant_platos < 25) {
         platos[cant_platos] = *plato; // Copiar el plato al arreglo
         cant_platos++;               // Incrementar el contador de platos
-        cout << "Plato \"" << plato->nombre << "\" agregado al pedido." << endl;
+        // cout << "Plato \"" << plato->nombre << "\" agregado al pedido." << endl;
     } else {
         // Si el pedido está lleno, se lanza una excepción
         throw runtime_error("No se pueden agregar más platos al pedido. Capacidad máxima alcanzada.");

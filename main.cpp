@@ -17,21 +17,20 @@ void procesarLinea(string linea, Registro &registro_pedidos, Plato* menu, int la
         int numero_mesa;
         iss >> tipo_pedido >> numero_mesa;
 
-        cout << "TIPO_PEDIDO: " << tipo_pedido << "." << endl;
+        // cout << "TIPO_PEDIDO: " << tipo_pedido << "." << endl;
         
         if(tipo_pedido=="mesa"){ // servir = True
-            Pedido*nuevoPedido= new Pedido();
+            Pedido*nuevoPedido = new Pedido();
             nuevoPedido->setMesa(numero_mesa);
             nuevoPedido->setTipo(true);
-            registro_pedidos.agregar_pedido(nuevoPedido); // aqui agregamos los detalles
+            // registro_pedidos.agregar_pedido(nuevoPedido); // aqui agregamos los detalles
             registro_pedidos.set_pedido_actual(nuevoPedido);
             // cout<<nuevoPedido->getMesa()<<endl;
-        }
-        else{
-            Pedido*nuevoPedido= new Pedido(); // servir = False
+        } else {
+            Pedido*nuevoPedido = new Pedido(); // servir = False
             nuevoPedido->setMesa(id_llevar); //tiene id secuencial 
             nuevoPedido->setTipo(false);
-            registro_pedidos.agregar_pedido(nuevoPedido);
+            // registro_pedidos.agregar_pedido(nuevoPedido);
             registro_pedidos.set_pedido_actual(nuevoPedido);
             id_llevar++;
         }
@@ -85,7 +84,7 @@ void procesarLinea(string linea, Registro &registro_pedidos, Plato* menu, int la
         }
         
         
-    }else if (comando == "info") {
+    } else if (comando == "info") {
         // mostrara la info de la mesa
         string tipo_pedido;
         int id;
@@ -99,31 +98,41 @@ void procesarLinea(string linea, Registro &registro_pedidos, Plato* menu, int la
     
     } else if (comando == "pedir") {
         //pedir finalizara el pedido, ira siempre despues de un agregar
+        bool tipo_mesa = registro_pedidos.get_pedido_actual()->getTipo();
+        if(tipo_mesa){
+            cout << "mesa " << registro_pedidos.get_pedido_actual()->getMesa() << " Registrado" << endl;
+        } else {
+            cout << "llevar " << id_llevar << " Registrado" << endl;
+        }
 
-    
-    }else if (comando == "pagar") {
+        registro_pedidos.agregar_pedido(registro_pedidos.get_pedido_actual()); // aqui agregamos los detalles
+        registro_pedidos.set_pedido_actual(nullptr); //reseteamos el pedido actual
+
+    } else if (comando == "pagar") {
         string tipo_pedido;
         int id;
         iss >> tipo_pedido >> id;
-        cout << "TIPO_PEDIDO: " << tipo_pedido << "." << endl;
-        cout << "ID: " << id << "." << endl;
 
-        Pedido* pedido = registro_pedidos.eliminar_pedido(id, tipo_pedido == "mesa");
+        Pedido* pedido = registro_pedidos.eliminar_pedido(id, tipo_pedido == "mesa"); //debería retornar el pedido
         if (pedido) {
             int total = pedido->precio_total(); // falta precio total
             int total_con_propina = total + total * 0.1;
-            cout << "Pedido eliminado y pagado." << endl;
+            // cout << "Pedido eliminado y pagado." << endl;
             cout << "Total: " << total << endl;
-            cout << "Total con propina: " << total_con_propina << endl;
+            cout << "Propina: " << total*0.1 << endl;
+            cout << "Total + propina: " << total_con_propina << endl;
+            cout << "Factor de carga: " << registro_pedidos.retornarFactorDeCarga() << endl;
+
         } else {
             cerr << "Pedido no encontrado para pagar." << endl;
         }
     } else if (comando == "cerrar") {
         // muestra el total de lo ganado con la propina incluida
+        
         return;
-    } else{
+    } else {
         cout<<"comando no encontrado"<<endl;
-}
+    }
 
 };
 

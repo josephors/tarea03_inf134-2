@@ -40,6 +40,8 @@ class Registro {
         int p(int i);
 
         Pedido* pedido_actual; //pedido en curso
+        float factor_de_carga;
+        int cant_pedidos;
     public :
         Registro (int size);
         ~ Registro ();
@@ -51,6 +53,7 @@ class Registro {
         void set_pedido_actual(Pedido* pedido); // Método para establecer el pedido actual
 
         void Platos_Precios(int id, bool tipo_pedido);
+        float retornarFactorDeCarga();
 };
 
 #endif // HASH_H
